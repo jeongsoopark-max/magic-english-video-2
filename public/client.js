@@ -423,10 +423,17 @@ screenBtn.addEventListener('click', () => {
 });
 
 async function startScreenShare() {
+  if (!navigator.mediaDevices || typeof navigator.mediaDevices.getDisplayMedia !== 'function') {
+    triggerToastIfAvailable('⚠️ 이 브라우저에서는 화면 공유를 지원하지 않아요. 아이패드는 Safari 최신 버전으로 접속해주세요 (Chrome 앱은 지원 안 함).');
+    return;
+  }
   try {
     screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
   } catch (err) {
-    return; // user cancelled the "choose what to share" picker
+    if (err && err.name !== 'NotAllowedError' && err.name !== 'AbortError') {
+      triggerToastIfAvailable('⚠️ 화면 공유를 시작하지 못했어요. 브라우저를 최신 버전으로 업데이트해보세요.');
+    }
+    return; // user cancelled the "choose what to share" picker (or the OS blocked it)
   }
 
   sharingScreen = true;
