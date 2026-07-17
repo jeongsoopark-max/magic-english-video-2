@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGIC ENGLISH 통합 학습 포털</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700;900&family=Poppins:wght=400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'Poppins', 'sans-serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0b132b',
+                            card: '#1e293b',
+                            accent: '#10b981',
+                            accentHover: '#059669',
+                            glow: '#00f5d4'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #020617; font-family: 'Noto Sans KR', sans-serif; }
+        .custom-glow { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 245, 212, 0.15);
+            border-color: #00f5d4;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b132b; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between">
+    <header class="border-b border-slate-800 bg-brand-dark/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-accent to-brand-glow flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-graduation-cap text-slate-900 text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-poppins font-extrabold text-xl tracking-tight text-white">MAGIC ENGLISH</span>
+                    <p class="text-[10px] text-brand-accent font-bold tracking-wider -mt-1">GOOGLE WORKSPACE INTEGRATED</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="hidden sm:flex text-xs font-semibold bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span> 실시간 동기화 활성
+                </div>
+                <button onclick="openAdminModal()" class="text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-brand-glow px-4 py-1.5 rounded-full flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-sliders"></i> 선생님 모드 (주소 수정)
+                </button>
+            </div>
+        </div>
+    </header>
+    <section class="relative max-w-7xl w-full mx-auto px-6 pt-12 pb-8 text-center">
+        <div class="absolute inset-0 -z-10 flex items-center justify-center overflow-hidden">
+            <div class="w-96 h-96 rounded-full bg-emerald-500/10 blur-[100px] animate-pulse"></div>
+            <div class="w-96 h-96 rounded-full bg-cyan-500/5 blur-[120px] delay-1000"></div>
+        </div>
+        <span class="text-brand-accent text-sm font-bold tracking-widest uppercase bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 rounded-full inline-block mb-4">로그인 없이 즉시 학습</span>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight font-poppins mb-4">나만을 위한 EDU PORTAL</h1>
+        <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg font-light leading-relaxed">
+            구글 사이트도구와 클라우드 생태계를 융합하여, 복잡한 설치 없이 단 한 번의 클릭만으로 맞춤형 학습을 시작합니다.
+        </p>
+    </section>
+    <section id="classes" class="max-w-7xl w-full mx-auto px-6 py-8">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl font-extrabold text-white">5대 맞춤 클래스</h2>
+                <p class="text-slate-400 text-sm mt-1">원하는 클래스를 클릭하여 실시간 화상 수업, 개별 자료실, 강의 목록으로 입장하세요.</p>
+            </div>
+        </div>
+        <div id="classes-grid-3" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"></div>
+        <div id="classes-grid-2" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+    <section id="drive-hub" class="max-w-7xl w-full mx-auto px-6 py-12">
+        <div class="bg-gradient-to-r from-brand-card to-slate-900 border border-slate-800 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center justify-between">
+            <div class="space-y-4 max-w-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fa-brands fa-google-drive text-3xl text-brand-glow"></i>
+                    <span class="text-xs font-bold tracking-wider text-slate-400 uppercase">Google Drive Hub</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white">속 시원한 자료실 허브</h2>
+                <p class="text-slate-400 text-sm md:text-base leading-relaxed">구글 드라이브와 직접 매핑되어 단 1초 만에 최신 교재와 강의 필기집을 내려받으세요.</p>
+            </div>
+            <div class="w-full md:w-auto flex flex-col gap-3 min-w-[280px]">
+                <button onclick="simulateDownload('vocab', '스마트 영단어 실력 체크')" class="w-full bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/10 transition-all">
+                    <i class="fa-solid fa-list-check text-lg"></i> 🎯 스마트 영단어 실력 체크
+                </button>
+                <button onclick="simulateDownload('exam', '파이널 모의고사')" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 transition-all">
+                    <i class="fa-solid fa-file-pdf text-lg text-rose-500"></i> 파이널 모의고사
+                </button>
+            </div>
+        </div>
+    </section>
+    <section id="qa-section" class="max-w-7xl w-full mx-auto px-6 py-12 border-t border-slate-900">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div class="space-y-6">
+                <div>
+                    <span class="text-brand-accent text-xs font-bold uppercase tracking-wider">Interactive Google Forms</span>
+                    <h2 class="text-3xl font-black text-white mt-1">1:1 다이렉트 질문하기</h2>
+                </div>
+                <p class="text-slate-400 leading-relaxed text-sm md:text-base">제출하기를 누르면 기존에 사용하던 실제 구글 폼 답변 양식 페이지로 즉시 연결되어 안전하게 데이터가 전송됩니다.</p>
+                <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent text-xl flex-shrink-0"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">구글 설문지 생태계 100% 순정 호환</h4>
+                        <p class="text-xs text-slate-400 mt-1">질문 내역은 로그에 누적되는 동시에 구글 폼 원본으로 수집됩니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6 custom-glow">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
+                        <span class="text-xs text-slate-400">가상 구글 스프레드시트 업데이트 보드</span>
+                    </div>
+                    <span class="text-[10px] text-brand-glow bg-emerald-500/10 px-2 py-0.5 rounded font-bold">LIVE DATALOG</span>
+                </div>
+                <form id="mockForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-2">이름 또는 수강 학생 코드</label>
+                        <input id="studentName" required type="text" placeholder="예: Basic_홍길동" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-2">클래스 선택 및 질문 내용</label>
+                        <select id="studentClass" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent transition-all mb-3">
+                            <option value="Basic 클래스">Basic 클래스</option>
+                            <option value="Grammar 클래스">Grammar 클래스</option>
+                            <option value="Intermediate 클래스">Intermediate 클래스</option>
+                            <option value="Advanced 클래스">Advanced 클래스</option>
+                            <option value="Private 클래스">Private 클래스</option>
+                        </select>
+                        <textarea id="studentQuestion" required rows="3" placeholder="예: 파이널 모의고사 5번 준동사 구조 해설이 헷갈려요." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-accent transition-all"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-100 hover:bg-white text-slate-900 font-extrabold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> 실제 구글 폼 양식으로 질문 제출하기
+                    </button>
+                </form>
+                <div class="mt-6">
+                    <span class="block text-[11px] font-bold text-slate-400 mb-2">최근 전송된 소통 피드백 로그</span>
+                    <div id="sheetLog" class="space-y-2 max-h-[140px] overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 모달 영역 (전부 기본 숨김 처리 hidden) -->
+    <div id="classModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 items-center justify-center p-4 hidden">
+        <div class="bg-brand-card border border-slate-800 w-full max-w-2xl rounded-3xl p-6 md:p-8 space-y-6 relative animate-[scaleIn_0.2s_ease-out]">
+            <button onclick="closeModal()" class="absolute right-6 top-6 text-slate-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div id="modalHeader" class="flex items-center gap-4"></div>
+            <hr class="border-slate-850">
+            <div id="modalBody" class="space-y-4"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-850">
+                <a id="modalMeetBtn" class="py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-sky-500/15 cursor-pointer"><i class="fa-solid fa-video text-base"></i> 화상 수업 입장</a>
+                <a id="modalPlaylistBtn" class="py-3.5 bg-indigo-500 hover:bg-indigo-600 text-white font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/15 cursor-pointer"><i class="fa-solid fa-circle-play text-base"></i> 강의 목록</a>
+                <a id="modalActionBtn" class="py-3.5 bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-extrabold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/15 cursor-pointer"><i class="fa-brands fa-google-drive text-base"></i> 자료실 열기</a>
+            </div>
+        </div>
+    </div>
+    <div id="passwordModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 items-center justify-center p-4 hidden">
+        <div class="bg-brand-card border border-slate-800 w-full max-w-md rounded-3xl p-6 md:p-8 space-y-6 relative animate-[scaleIn_0.2s_ease-out]">
+            <button onclick="closePasswordModal()" class="absolute right-6 top-6 text-slate-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="text-center space-y-3">
+                <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 flex items-center justify-center text-brand-glow text-3xl"><i class="fa-solid fa-lock"></i></div>
+                <h3 class="text-xl font-bold text-white">선생님 인증 패널</h3>
+                <p class="text-xs text-slate-400">관리자 전용 보안 비밀번호를 입력해 주세요.</p>
+            </div>
+            <div class="space-y-4">
+                <input type="password" id="adminPasswordInput" onkeyup="if(event.keyCode===13) checkAdminPassword()" placeholder="비밀번호 입력 (기본: magic777)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-center text-white tracking-widest focus:outline-none focus:border-brand-accent transition-all">
+                <button onclick="checkAdminPassword()" class="w-full py-3.5 bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-extrabold rounded-xl transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-key"></i> 확인 및 입장</button>
+            </div>
+        </div>
+    </div>
+    <div id="adminModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 items-center justify-center p-4 overflow-y-auto hidden">
+        <div class="bg-brand-card border border-slate-800 w-full max-w-3xl rounded-3xl p-6 md:p-8 space-y-6 my-8 relative animate-[scaleIn_0.2s_ease-out]">
+            <button onclick="closeAdminModal()" class="absolute right-6 top-6 text-slate-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-brand-accent/10 border border-brand-accent/30 flex items-center justify-center text-brand-accent text-xl"><i class="fa-solid fa-sliders"></i></div>
+                <div>
+                    <h3 class="text-2xl font-black text-white">선생님 전용 관리 공간</h3>
+                    <p class="text-xs text-brand-accent mt-0.5">수업용 화상 링크, 자료실, 구글 폼 링크를 보정하세요.</p>
+                </div>
+            </div>
+            <hr class="border-slate-800">
+            <div class="space-y-4 max-h-[350px] overflow-y-auto pr-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-emerald-400">🟢 Basic 클래스</span>
+                        <input type="text" id="admin_basic_meet" placeholder="화상 수업 링크 (기본: 자체 시스템)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-400">
+                        <input type="text" id="admin_basic_playlist" placeholder="강의 목록 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-400">
+                        <input type="text" id="admin_basic_drive" placeholder="전용 드라이브 폴더 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-cyan-400">🔵 Grammar 클래스</span>
+                        <input type="text" id="admin_grammar_meet" placeholder="화상 수업 링크 (기본: 자체 시스템)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <input type="text" id="admin_grammar_playlist" placeholder="강의 목록 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                        <input type="text" id="admin_grammar_drive" placeholder="전용 드라이브 폴더 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-400">
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-indigo-400">🟣 Intermediate 클래스</span>
+                        <input type="text" id="admin_intermediate_meet" placeholder="화상 수업 링크 (기본: 자체 시스템)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-400">
+                        <input type="text" id="admin_intermediate_playlist" placeholder="강의 목록 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-400">
+                        <input type="text" id="admin_intermediate_drive" placeholder="전용 드라이브 폴더 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-400">
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-amber-400">🟡 Advanced 클래스</span>
+                        <input type="text" id="admin_advanced_meet" placeholder="화상 수업 링크 (기본: 자체 시스템)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                        <input type="text" id="admin_advanced_playlist" placeholder="강의 목록 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                        <input type="text" id="admin_advanced_drive" placeholder="전용 드라이브 폴더 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-rose-400">🔴 Private 클래스</span>
+                        <input type="text" id="admin_private_meet" placeholder="화상 수업 링크 (기본: 자체 시스템)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400">
+                        <input type="text" id="admin_private_playlist" placeholder="강의 목록 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400">
+                        <input type="text" id="admin_private_drive" placeholder="전용 드라이브 폴더 주소" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400">
+                    </div>
+
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-3">
+                        <span class="text-xs font-bold text-slate-300">📁 공통 링크 & 🔒 보안 관리</span>
+                        <input type="text" id="admin_global_vocab" placeholder="🎯 스마트 영단어 실력 체크 링크" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-slate-300">
+                        <input type="text" id="admin_global_exam" placeholder="파이널 모의고사 링크" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-slate-300">
+                        <input type="text" id="admin_global_student_form" placeholder="📝 학생 제출용 구글 폼 주소 (응답 페이지)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-rose-400 focus:outline-none focus:border-slate-300">
+                        <div class="flex gap-2">
+                            <input type="text" id="admin_global_admin_form" placeholder="⚙️ 관리자 질문 수집 드라이브 폴더" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-slate-300">
+                            <button onclick="openAdminFolder()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-lg text-xs font-bold transition flex-shrink-0">폴더 열기</button>
+                        </div>
+                        <input type="password" id="admin_pin_input" placeholder="새 관리자 비밀번호 (기본: magic777)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-400 mt-2">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-800">
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onclick="saveAdminSettings()" class="flex-1 py-3.5 bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-extrabold rounded-xl text-sm transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-base"></i> 현재 브라우저에 적용하기
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 border border-brand-accent text-slate-100 py-3.5 px-6 rounded-2xl shadow-2xl shadow-emerald-500/20 z-50 transition-all transform translate-y-4 opacity-0 hidden flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-brand-accent text-lg"></i>
+        <span id="toastMessage" class="text-sm font-semibold">알림</span>
+    </div>
+    <script>
+        const safeStorage = {
+            getItem: function(key) { try { return localStorage.getItem(key); } catch (e) { return this.fallback[key] || null; } },
+            setItem: function(key, val) { try { localStorage.setItem(key, val); } catch (e) { this.fallback[key] = val; } },
+            fallback: {}
+        };
+        // meetLink now points at our own video-class app (class.html?room=<key>)
+        // instead of a meet.google.com address. The admin panel below can still
+        // override any of these back to a real Google Meet link if you ever need to.
+        const classData = {
+            basic: { title: "Basic 클래스", level: "고1 전용 완전 기초", color: "emerald", icon: "fa-egg", time: "매주 일요일 오후 8시 ~ 9시", meetLink: "class.html?room=basic", playlistLink: "https://drive.google.com/drive/folders/1RTTcFvRGGNEUFSi0VLXkin-GarBw9hid", driveLink: "https://drive.google.com/drive/folders/12iMQnFsQagQnPVW7Q2RcISGCaOwSMQod?usp=drive_link", desc: "[수업 시간: 매주 일요일 오후 8시 ~ 9시] 필수 어휘와 핵심 구문의 뼈대를 잡는 첫걸음 코스입니다." },
+            grammar: { title: "Grammar 클래스", level: "고등 전체 문법반", color: "cyan", icon: "fa-book-open", time: "매주 월요일 오후 11시 ~ 12시", meetLink: "class.html?room=grammar", playlistLink: "https://drive.google.com/drive/folders/1PX-DM6vB9Mugq7hYTW-XDHsoyViikIho", driveLink: "https://drive.google.com/drive/folders/1sJplWPPBv0F2FSmq7TWEZVDJPBh6v-L9?usp=drive_link", desc: "[수업 시간: 매주 월요일 오후 11시 ~ 12시] 정동사/준동사 구분을 통해 문법 눈을 장착하는 코스입니다." },
+            intermediate: { title: "Intermediate 클래스", level: "Lv. 3 독해", color: "indigo", icon: "fa-square-poll-vertical", time: "매주 토요일 오후 7시 ~ 8시", meetLink: "class.html?room=intermediate", playlistLink: "https://drive.google.com/drive/folders/13Di9NJJGKJTD2lHsS95RN5psvb7U6RaY", driveLink: "https://drive.google.com/drive/folders/1vNuffBohWAwdWav4nFpoW2xLHI2pmAY_?usp=drive_link", desc: "[수업 시간: 매주 토요일 오후 7시 ~ 8시] 실전 독해 완성을 위한 주간 기출 모의고사 피드백 코스입니다." },
+            advanced: { title: "Advanced 클래스", level: "고등 전체 고급반", color: "amber", icon: "fa-award", time: "매주 금요일 오후 11시 ~ 12시", meetLink: "class.html?room=advanced", playlistLink: "https://drive.google.com/drive/folders/1hq-gLoaTmssCxR_bryueuXijGMTCsR6W", driveLink: "https://drive.google.com/drive/folders/1DGvWoUFCf367Dw21llcwDCy2dNt0P_uS?usp=drive_link", desc: "[수업 시간: 매주 금요일 오후 11시 ~ 12시] 킬러 문항 메커니즘을 파고들어 1등급을 확보하는 코스입니다." },
+            private: { title: "Private 클래스", level: "1:1 밀착 관리", color: "rose", icon: "fa-lock", time: "학생 맞춤형 1:1 일정 협의", meetLink: "class.html?room=private", playlistLink: "https://drive.google.com/drive/folders/1hK_9ud_KU77UJ3M9HpD7rM7lHxYCDiLg", driveLink: "https://drive.google.com/drive/folders/19LOEvdvTW0gPH6jd3Sin_wB59lmi4_qn?usp=drive_link", desc: "[수업 시간: 학생 맞춤형 1:1 일정 협의] 취약 유형을 집중 저격하는 극비 밀착 개인 맞춤 코스입니다." }
+        };
+        const globalDownloads = {
+            vocab: "https://magic-vocabulary-sjlherfhfppdwp3tgvppqe.streamlit.app/",
+            exam: "https://drive.google.com/drive/folders/12m1z1Y64CLA27nGrwpDsW8eMNz62VvD8",
+            studentForm: "https://forms.gle/1FvJroxUVWzswa5v9",
+            adminFormFolder: "https://drive.google.com/drive/folders/1HuUKm9223tywPEbtooe33A4-8BQdF0L_"
+        };
+        let adminPin = "magic777";
+        function ensureAbsoluteUrl(url) {
+            if (!url) return "";
+            let trimmed = url.trim();
+            if (!trimmed) return "";
+            // Leave protocol-relative/relative links (our own class.html, anchors, etc.) untouched.
+            if (/^https?:\/\//i.test(trimmed)) return trimmed;
+            if (trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('#') || trimmed.startsWith('class.html')) return trimmed;
+            return "https://" + trimmed;
+        }
+        function renderClassCards() {
+            const grid3 = document.getElementById('classes-grid-3');
+            const grid2 = document.getElementById('classes-grid-2');
+            if (!grid3 || !grid2) return;
+            grid3.innerHTML = '';
+            grid2.innerHTML = '';
+            Object.keys(classData).forEach((key, idx) => {
+                const data = classData[key];
+                const bgScaleClass = (key === 'advanced' || key === 'private') ? 'text-[150px]' : 'text-9xl';
+                const colorConfig = getTailwindColorConfig(data.color);
+
+                const cardHtml = `
+                    <div onclick="openModal('${key}')" class="card-hover bg-brand-card border border-slate-800 rounded-2xl p-6 transition-all duration-300 cursor-pointer relative overflow-hidden group">
+                        <div class="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all ${bgScaleClass}"><i class="fa-solid ${data.icon} text-white"></i></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="p-3 ${colorConfig.bg} border ${colorConfig.border} rounded-xl ${colorConfig.text}"><i class="fa-solid ${data.icon} text-xl"></i></span>
+                            <span class="text-[10px] font-bold tracking-wider uppercase ${colorConfig.text} ${colorConfig.badge} px-2.5 py-1 rounded">${data.level}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">${data.title}</h3>
+                        <div class="inline-flex items-center gap-1.5 text-xs ${colorConfig.text} ${colorConfig.bg} border ${colorConfig.border} px-2.5 py-1 rounded-md mb-3"><i class="fa-regular fa-clock"></i> ${data.time}</div>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">${data.desc}</p>
+                    </div>`;
+                if (idx < 3) grid3.innerHTML += cardHtml;
+                else grid2.innerHTML += cardHtml;
+            });
+        }
+        window.onload = function() {
+            renderClassCards();
+            const savedConfig = safeStorage.getItem('magic_english_custom_config');
+            if (savedConfig) {
+                try {
+                    const parsed = JSON.parse(savedConfig);
+                    Object.keys(parsed.classes).forEach(key => {
+                        if (classData[key]) {
+                            classData[key].meetLink = ensureAbsoluteUrl(parsed.classes[key].meetLink || classData[key].meetLink);
+                            classData[key].driveLink = ensureAbsoluteUrl(parsed.classes[key].driveLink || classData[key].driveLink);
+                            classData[key].playlistLink = ensureAbsoluteUrl(parsed.classes[key].playlistLink || classData[key].playlistLink);
+                        }
+                    });
+                    globalDownloads.vocab = ensureAbsoluteUrl(parsed.globals.vocab || globalDownloads.vocab);
+                    globalDownloads.exam = ensureAbsoluteUrl(parsed.globals.exam || globalDownloads.exam);
+                    globalDownloads.studentForm = ensureAbsoluteUrl(parsed.globals.studentForm || globalDownloads.studentForm);
+                    globalDownloads.adminFormFolder = ensureAbsoluteUrl(parsed.globals.adminFormFolder || globalDownloads.adminFormFolder);
+                } catch (e) {}
+            }
+        };
+        function getTailwindColorConfig(color) {
+            const configMap = {
+                emerald: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-400', badge: 'bg-emerald-400/10' },
+                cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', text: 'text-cyan-400', badge: 'bg-cyan-400/10' },
+                indigo: { bg: 'bg-indigo-500/10', border: 'border-indigo-500/20', text: 'text-indigo-400', badge: 'bg-indigo-400/10' },
+                amber: { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400', badge: 'bg-amber-400/10' },
+                rose: { bg: 'bg-rose-500/10', border: 'border-rose-500/20', text: 'text-rose-400', badge: 'bg-rose-400/10' }
+            };
+            return configMap[color] || configMap.emerald;
+        }
+        function openModal(classKey) {
+            const data = classData[classKey];
+            if (!data) return;
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+            const colorConfig = getTailwindColorConfig(data.color);
+            header.innerHTML = `<div class="w-12 h-12 rounded-xl ${colorConfig.bg} border ${colorConfig.border} flex items-center justify-center ${colorConfig.text} text-xl"><i class="fa-solid ${data.icon}"></i></div><div><h3 class="text-xl font-bold text-white">${data.title}</h3><span class="text-[10px] font-bold tracking-wider uppercase ${colorConfig.text} ${colorConfig.bg} px-2.5 py-1 rounded mt-1 inline-block">${data.level}</span></div>`;
+            body.innerHTML = `<p class="text-slate-300 text-sm leading-relaxed">${data.desc}</p>`;
+            const setupBtn = (btnId, link, errorMsg, successMsg) => {
+                const btn = document.getElementById(btnId);
+                if (!link || link.trim() === "" || link === "https://") {
+                    btn.removeAttribute('href');
+                    btn.onclick = (e) => { e.preventDefault(); triggerToast(errorMsg); };
+                } else {
+                    btn.href = link; btn.target = "_blank";
+                    btn.onclick = () => triggerToast(successMsg);
+                }
+            };
+            setupBtn('modalMeetBtn', data.meetLink, "⚠️ 아직 등록된 화상 수업 링크가 없습니다.", `${data.title} 화상 수업에 입장합니다.`);
+            setupBtn('modalPlaylistBtn', data.playlistLink, "⚠️ 아직 등록된 강의 녹화 목록이 없습니다.", `${data.title} 강의 목록 페이지로 이동합니다.`);
+            setupBtn('modalActionBtn', data.driveLink, "⚠️ 아직 등록된 드라이브 자료실 링크가 없습니다.", `${data.title} 전용 클라우드 자료실로 연결합니다.`);
+            document.getElementById('classModal').classList.replace('hidden', 'flex');
+        }
+        function closeModal() { document.getElementById('classModal').classList.replace('flex', 'hidden'); }
+        function simulateDownload(fileKey, fileName) {
+            const link = globalDownloads[fileKey];
+            if (!link || link.trim() === "" || link === "https://") return triggerToast("⚠️ 자료 준비 중입니다. [선생님 모드]에서 연동 주소를 기입해 주세요.");
+            triggerToast(`'${fileName}' 페이지로 연결합니다...`);
+            window.open(link, "_blank");
+        }
+        function triggerToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; }, 50);
+            setTimeout(() => {
+                toast.style.opacity = '0'; toast.style.transform = 'translateY(16px)';
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value;
+            const className = document.getElementById('studentClass').value;
+            const question = document.getElementById('studentQuestion').value;
+            const sheetLog = document.getElementById('sheetLog');
+
+            const newLog = document.createElement('div');
+            newLog.className = "bg-slate-950 p-3 rounded-lg border border-slate-850 flex justify-between text-xs items-center animate-[scaleIn_0.15s_ease-out]";
+            newLog.innerHTML = `<div><strong class="text-brand-glow">[${className.replace(" 클래스", "")}]</strong><span class="text-slate-300 ml-1.5">${name}: ${question}</span></div><span class="text-brand-accent text-[10px] font-bold">방금 전</span>`;
+            sheetLog.insertBefore(newLog, sheetLog.firstChild);
+            document.getElementById('studentQuestion').value = "";
+
+            const targetForm = globalDownloads.studentForm;
+            if (!targetForm || targetForm.trim() === "" || targetForm === "https://") {
+                triggerToast("⚠️ 학생 응답용 구글 폼 주소가 아직 등록되지 않았습니다!");
+                return;
+            }
+            triggerToast(`실제 구글 폼 서식으로 안전하게 연결합니다.`);
+            window.open(targetForm, "_blank");
+        }
+        function openAdminModal() {
+            document.getElementById('adminPasswordInput').value = "";
+            document.getElementById('passwordModal').classList.replace('hidden', 'flex');
+            document.getElementById('adminPasswordInput').focus();
+        }
+        function closePasswordModal() { document.getElementById('passwordModal').classList.replace('flex', 'hidden'); }
+        function checkAdminPassword() {
+            if (document.getElementById('adminPasswordInput').value === adminPin) {
+                closePasswordModal();
+                triggerToast("🔑 선생님 모드 인증 성공!");
+                showActualAdminSettings();
+            } else {
+                triggerToast("❌ 비밀번호가 올바르지 않습니다!");
+                document.getElementById('adminPasswordInput').value = "";
+                document.getElementById('adminPasswordInput').focus();
+            }
+        }
+        function openAdminFolder() {
+            const link = document.getElementById('admin_global_admin_form').value;
+            if(!link || link.trim() === "" || link === "https://") return triggerToast("⚠️ 관리자 폴더 주소가 비어있습니다.");
+            window.open(link, '_blank');
+        }
+        function showActualAdminSettings() {
+            Object.keys(classData).forEach(key => {
+                document.getElementById(`admin_${key}_meet`).value = classData[key].meetLink || "";
+                document.getElementById(`admin_${key}_drive`).value = classData[key].driveLink || "";
+                document.getElementById(`admin_${key}_playlist`).value = classData[key].playlistLink || "";
+            });
+            document.getElementById('admin_global_vocab').value = globalDownloads.vocab;
+            document.getElementById('admin_global_exam').value = globalDownloads.exam;
+            document.getElementById('admin_global_student_form').value = globalDownloads.studentForm;
+            document.getElementById('admin_global_admin_form').value = globalDownloads.adminFormFolder;
+            document.getElementById('admin_pin_input').value = adminPin;
+
+            document.getElementById('adminModal').classList.replace('hidden', 'flex');
+        }
+        function saveAdminSettings() {
+            const newConfig = { classes: {}, globals: {} };
+            Object.keys(classData).forEach(key => {
+                let meetVal = ensureAbsoluteUrl(document.getElementById(`admin_${key}_meet`).value);
+                let driveVal = ensureAbsoluteUrl(document.getElementById(`admin_${key}_drive`).value);
+                let playlistVal = ensureAbsoluteUrl(document.getElementById(`admin_${key}_playlist`).value);
+                classData[key].meetLink = meetVal;
+                classData[key].driveLink = driveVal;
+                classData[key].playlistLink = playlistVal;
+                newConfig.classes[key] = { meetLink: meetVal, driveLink: driveVal, playlistLink: playlistVal };
+            });
+            globalDownloads.vocab = ensureAbsoluteUrl(document.getElementById('admin_global_vocab').value);
+            globalDownloads.exam = ensureAbsoluteUrl(document.getElementById('admin_global_exam').value);
+            globalDownloads.studentForm = ensureAbsoluteUrl(document.getElementById('admin_global_student_form').value);
+            globalDownloads.adminFormFolder = ensureAbsoluteUrl(document.getElementById('admin_global_admin_form').value);
+
+            newConfig.globals = {
+                vocab: globalDownloads.vocab,
+                exam: globalDownloads.exam,
+                studentForm: globalDownloads.studentForm,
+                adminFormFolder: globalDownloads.adminFormFolder
+            };
+            const pinVal = document.getElementById('admin_pin_input').value.trim();
+            if (pinVal) { adminPin = pinVal; safeStorage.setItem('magic_english_admin_pin', pinVal); }
+            safeStorage.setItem('magic_english_custom_config', JSON.stringify(newConfig));
+
+            renderClassCards();
+            triggerToast("💾 설정이 성공적으로 반영되었습니다!");
+            closeAdminModal();
+        }
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.replace('flex', 'hidden');
+        }
+    </script>
+</body>
+</html>
